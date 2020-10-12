@@ -15,6 +15,7 @@ player_img = pygame.image.load('spaceship.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
+playerY_change = 0
 
 
 def player(x, y):
@@ -25,7 +26,7 @@ def player(x, y):
 running = True
 while running:
     # RGB red, green, blue
-    screen.fill((0, 0, 0))
+    screen.fill((20, 10, 60))
     # loop through events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -37,10 +38,16 @@ while running:
                 playerX_change = -0.5
             if event.key == pygame.K_RIGHT:
                 playerX_change = 0.5
-        if event.type ==pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                playerY_change = -0.5
+            if event.key == pygame.K_DOWN:
+                playerY_change = 0.5
+        if event.type == pygame.KEYUP:
             playerX_change = 0
+            playerY_change = 0
 
     playerX += playerX_change
+    playerY += playerY_change
     player(playerX, playerY)
     pygame.display.update()
 
