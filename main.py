@@ -15,11 +15,20 @@ player_img = pygame.image.load('spaceship.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
-playerY_change = 0
+
+# Enemy
+enemy_img = pygame.image.load('enemy.png')
+enemyX = 370
+enemyY = 60
+enemyX_change = 0
 
 
 def player(x, y):
     screen.blit(player_img, (x, y))
+
+
+def enemy(x, y):
+    screen.blit(enemy_img, (x, y))
 
 
 # Game loop
@@ -38,17 +47,16 @@ while running:
                 playerX_change = -0.5
             if event.key == pygame.K_RIGHT:
                 playerX_change = 0.5
-            if event.key == pygame.K_UP:
-                playerY_change = -0.5
-            if event.key == pygame.K_DOWN:
-                playerY_change = 0.5
         if event.type == pygame.KEYUP:
             playerX_change = 0
-            playerY_change = 0
 
     playerX += playerX_change
-    playerY += playerY_change
+    if playerX <= 0:
+        playerX = 0
+    if playerX >= 736:
+        playerX = 736
     player(playerX, playerY)
+    enemy(enemyX, enemyY)
     pygame.display.update()
 
 # if __name__ == '__main__':
