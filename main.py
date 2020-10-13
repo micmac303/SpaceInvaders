@@ -20,8 +20,16 @@ playerX_change = 0
 enemy_img = pygame.image.load('enemy.png')
 enemyX = 370
 enemyY = 60
-enemyX_change = 0.2
+enemyX_change = 0.1
 enemyY_change = 50
+
+# Bullet
+bullet_img = pygame.image.load('bullet.png')
+bulletX = 0
+bulletY = 480
+bulletX_change = 0
+bulletY_change = 0.3
+bullet_state = 'ready'
 
 
 def player(x, y):
@@ -30,6 +38,12 @@ def player(x, y):
 
 def enemy(x, y):
     screen.blit(enemy_img, (x, y))
+
+
+def fire_bullet(x,y):
+    global bullet_state
+    bullet_state = 'fire'
+    screen.blit(bullet_img, (x + 16, y + 10))
 
 
 # Game loop
@@ -48,6 +62,10 @@ while running:
                 playerX_change = -0.5
             if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 playerX_change = 0.5
+            if event.key == pygame.K_SPACE:
+                if bullet_state is 'ready':
+                    bulletX = playerX
+                    fire_bullet(bulletX,bulletY)
         if event.type == pygame.KEYUP:
             playerX_change = 0
 
@@ -62,13 +80,13 @@ while running:
         enemyX = 0
         enemyY += enemyY_change
 
-
+    if bulletY <= enemyY + 40:
+        bulletY = 480
+        bullet_state = 'ready'
+    if bullet_state is 'fire':
+        fire_bullet(bulletX,bulletY)
+        bulletY -= bulletY_change
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
     pygame.display.update()
-
-# if __name__ == '__main__':
-#     print_hi('PyCharm')
-#
-# # See PyCharm help at https://www.jetbrains.com/help/pycharm/
