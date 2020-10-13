@@ -20,7 +20,8 @@ playerX_change = 0
 enemy_img = pygame.image.load('enemy.png')
 enemyX = 370
 enemyY = 60
-enemyX_change = 0
+enemyX_change = 0.2
+enemyY_change = 50
 
 
 def player(x, y):
@@ -43,9 +44,9 @@ while running:
 
         # If key pressed check if right or left
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 playerX_change = -0.5
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 playerX_change = 0.5
         if event.type == pygame.KEYUP:
             playerX_change = 0
@@ -53,8 +54,16 @@ while running:
     playerX += playerX_change
     if playerX <= 0:
         playerX = 0
-    if playerX >= 736:
+    elif playerX >= 736:
         playerX = 736
+
+    enemyX += enemyX_change
+    if enemyX >= 800:
+        enemyX = 0
+        enemyY += enemyY_change
+
+
+
     player(playerX, playerY)
     enemy(enemyX, enemyY)
     pygame.display.update()
