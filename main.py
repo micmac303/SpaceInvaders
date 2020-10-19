@@ -26,26 +26,25 @@ enemyX = []
 enemyY = []
 enemyX_change = []
 enemyY_change = []
-num_of_enemies = 22
 
-counter = 0
-for i in range(num_of_enemies):
-    if i <= 10:
-        enemy_img.append(pygame.image.load('enemy.png'))
-        enemyX.append(50 + counter)
-        enemyY.append(60)
-        enemyX_change.append(0.4)
-        enemyY_change.append(70)
-        counter += 70
-        if i == 10:
-            counter = 0
-    else:
-        enemy_img.append(pygame.image.load('enemy.png'))
-        enemyX.append(50 + counter)
-        enemyY.append(60 + 70)
-        enemyX_change.append(0.4)
-        enemyY_change.append(70)
-        counter += 70
+
+def enemy_animation(number_of_rows, enemy_speed):
+    y_position_offset = 0
+    for z in range(number_of_rows):
+        x_position_offset = 0
+        for i in range(11):
+            enemy_img.append(pygame.image.load('enemy.png'))
+            enemyX.append(50 + x_position_offset)
+            enemyY.append(60 + y_position_offset)
+            enemyX_change.append(enemy_speed)
+            enemyY_change.append(70)
+            x_position_offset += 70
+        y_position_offset += 70
+
+    return 11 * number_of_rows
+
+
+num_of_enemies = enemy_animation(1, 0.6  )
 
 ended = True
 
@@ -54,7 +53,7 @@ bullet_img = pygame.image.load('bullet.png')
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
-bulletY_change = 1.2
+bulletY_change = 1.8
 bullet_state = 'ready'
 
 game_over_font = pygame.font.Font('freesansbold.ttf', 64)
@@ -115,7 +114,10 @@ while running:
                 bulletX = playerX
                 bullet_state = 'fire'
         if event.type == pygame.KEYUP:
-            playerX_change = 0
+            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                playerX_change = 0
+            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                playerX_change = 0
 
     playerX += playerX_change
     if playerX <= 0:
@@ -124,7 +126,6 @@ while running:
         playerX = 736
 
     for i in range(num_of_enemies):
-
         if enemyY[i] > 440:
             for j in range(num_of_enemies):
                 enemyY[j] = 2000
@@ -137,7 +138,7 @@ while running:
             screen.fill((200, 20, 20))
             display_game_over_text('GAME OVER', 200)
             break
-        elif score_value == 22:
+        elif score_value == num_of_enemies:
             if ended:
                 game_over_Sound = mixer.Sound('game_over_sound.wav')
                 game_over_Sound.play()
