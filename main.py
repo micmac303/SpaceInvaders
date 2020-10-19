@@ -69,7 +69,7 @@ def display_game_over_text(game_over_text, text_x):
     screen.blit(loose_text, (text_x, 250))
 
 
-def show_score(x,y):
+def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x,y))
 
@@ -130,20 +130,22 @@ while running:
             for j in range(num_of_enemies):
                 enemyY[j] = 2000
             if ended:
-                game_over_Sound = mixer.Sound('game_over_sound.wav')
-                game_over_Sound.play()
-                game_over_Speech = mixer.Sound('game_over_speech.wav')
-                game_over_Speech.play()
+                game_over_sound = mixer.Sound('game_over_sound.wav')
+                game_over_sound.play()
+                game_over_speech = mixer.Sound('game_over_speech.wav')
+                game_over_speech.play()
                 ended = False
-            screen.fill((200, 20, 20))
+            screen.fill((230, 21, 21))
             display_game_over_text('GAME OVER', 200)
             break
         elif score_value == num_of_enemies:
             if ended:
-                game_over_Sound = mixer.Sound('game_over_sound.wav')
-                game_over_Sound.play()
+                win_sound = mixer.Sound('win_sound.wav')
+                win_sound.play()
+                win_speech = mixer.Sound('win_speech.wav')
+                win_speech.play()
                 ended = False
-            screen.fill((20, 250, 20))
+            screen.fill((46, 232, 56))
             display_game_over_text('YOU WIN!', 245)
             break
         enemyX[i] += enemyX_change[i]
