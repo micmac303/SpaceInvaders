@@ -14,13 +14,13 @@ pygame.display.set_caption("Space Invaders")
 icon = pygame.image.load('space-invaders-icon.png')
 pygame.display.set_icon(icon)
 
-# Player
+# Initialise Player
 player_img = pygame.image.load('spaceship.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
 
-# Enemy
+# Initialise Enemy
 enemy_img = []
 enemyX = []
 enemyY = []
@@ -44,11 +44,7 @@ def enemy_animation(number_of_rows, enemy_speed):
     return 11 * number_of_rows
 
 
-num_of_enemies = enemy_animation(1, 0.6  )
-
-ended = True
-
-# Bullet
+# Initialise Bullet
 bullet_img = pygame.image.load('bullet.png')
 bulletX = 0
 bulletY = 480
@@ -56,10 +52,10 @@ bulletX_change = 0
 bulletY_change = 1.8
 bullet_state = 'ready'
 
+# Prepare display text
 game_over_font = pygame.font.Font('freesansbold.ttf', 64)
-
 score_value = 0
-font = pygame.font.Font('freesansbold.ttf', 32)
+score_font = pygame.font.Font('freesansbold.ttf', 32)
 score_textX = 10
 score_textY = 10
 
@@ -69,16 +65,16 @@ def display_game_over_text(game_over_text, text_x):
     screen.blit(loose_text, (text_x, 250))
 
 
-def show_score(x, y):
-    score = font.render("Score : " + str(score_value), True, (255, 255, 255))
+def display_score_text(x, y):
+    score = score_font.render("Score : " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x,y))
 
 
-def player(x, y):
+def draw_player(x, y):
     screen.blit(player_img, (x, y))
 
 
-def enemy(x, y, i):
+def draw_enemy(x, y, i):
     screen.blit(enemy_img[i], (x, y))
 
 
@@ -93,6 +89,8 @@ def is_collision(eX, eY, bX, bY):
 
 
 # Game loop
+num_of_enemies = enemy_animation(2, 0.6)
+ended = True
 running = True
 while running:
     # RGB red, green, blue
@@ -163,7 +161,7 @@ while running:
             print(score_value)
             enemyY[i] = -1000
 
-        enemy(enemyX[i], enemyY[i], i)
+        draw_enemy(enemyX[i], enemyY[i], i)
 
     if bulletY <= 0:
         bulletY = 480
@@ -173,6 +171,6 @@ while running:
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
-    player(playerX, playerY)
-    show_score(score_textX, score_textY)
+    draw_player(playerX, playerY)
+    display_score_text(score_textX, score_textY)
     pygame.display.update()
