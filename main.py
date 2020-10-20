@@ -7,9 +7,8 @@ from pygame import mixer
 # Initialise pygame
 pygame.init()
 
-# Create the screen
+# Prepare the game screen
 screen = pygame.display.set_mode((800, 600))
-
 pygame.display.set_caption("Space Invaders")
 icon = pygame.image.load('space-invaders-icon.png')
 pygame.display.set_icon(icon)
@@ -20,7 +19,7 @@ playerX = 370
 playerY = 480
 playerX_change = 0
 
-# Initialise Enemy
+# Initialise Enemy State Collections
 enemy_img = []
 enemyX = []
 enemyY = []
@@ -28,6 +27,7 @@ enemyX_change = []
 enemyY_change = []
 
 
+# Populate Enemy State Collections
 def enemy_animation(number_of_rows, enemy_speed):
     y_position_offset = 0
     for z in range(number_of_rows):
@@ -53,11 +53,12 @@ bulletY_change = 1.8
 bullet_state = 'ready'
 
 # Prepare display text
-game_over_font = pygame.font.Font('freesansbold.ttf', 64)
-score_value = 0
 score_font = pygame.font.Font('freesansbold.ttf', 32)
 score_textX = 10
 score_textY = 10
+game_over_font = pygame.font.Font('freesansbold.ttf', 64)
+
+score_value = 0
 
 
 def display_game_over_text(game_over_text, text_x):
